@@ -1,3 +1,29 @@
 h1 {
-    color: blue;
+    color: #ecc94bff;
 }
+
+div {
+    background-color: white;
+}
+
+body {
+    background-image: url("/img/bg.svg");
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+#header {
+    border: 2px solid #ecc94bff;
+    width: 100%;
+}
+/*
+#ecc94bff          gold
+
+*/
