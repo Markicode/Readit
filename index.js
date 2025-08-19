@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import pg from 'pg';
 import 'dotenv/config';
+import axios from 'axios';
 
 // App config
 const app = express();
@@ -16,17 +17,35 @@ const db = new pg.Pool({
 });
 
 let users = [];
+let reports = [];
+let loggedIn = false;
 
 // Use middleware
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded());
+app.use(authoriseUsage);
 
 // GET Homepage
 app.get("/", async (req, res) => {
-    const result = await db.query("SELECT * FROM users");
-    users = result.rows;
+    const usersResult = await db.query("SELECT * FROM users");
+    users = usersResult.rows;
+    const reportsResult = await db.query("SELECT * FROM books");
+    reports = reportsResult.rows;
+    for(const report of reports)
+    {
+        //const response = await axios.get(`https://covers.openlibrary.org/b/isbn/${report.isbn}-M.jpg`);
+        console.log(report);
+    }
     console.log(users);
     res.render("index.ejs");
+});
+
+app.get("/login", (req, res) => {
+    res.render("login.ejs");
+});
+
+app.get("/account", (req, res) => {
+    res.render("account.ejs");
 });
 
 
@@ -34,3 +53,24 @@ app.get("/", async (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
+
+function authoriseUsage(req, res, next)
+{
+    const openPaths = ["/", "/login"];
+    console.log(req.path);
+    if(openPaths.includes(req.path)) 
+    {
+        next();
+    }
+    else
+    {
+        if(loggedIn === true)
+        {
+            next();
+        }
+        else
+        {
+            return res.render("noauth.ejs");
+        }
+    }
+}

@@ -1,5 +1,6 @@
 h1 {
     color: #ecc94bff;
+    font-family: "Federant", serif;
 }
 
 div {
@@ -8,6 +9,7 @@ div {
 
 body {
     background-image: url("/img/bg.svg");
+    font-family: "Red Hat Text", sans-serif;
 }
 
 #container {
@@ -20,6 +22,17 @@ body {
 }
 
 #header {
+    border: 2px solid #ecc94bff;
+    width: 100%;
+}
+
+#nav {
+    border-left: 2px solid #ecc94bff;
+    border-right: 2px solid #ecc94bff;
+    width: 100%;
+}
+
+#content {
     border: 2px solid #ecc94bff;
     width: 100%;
 }
